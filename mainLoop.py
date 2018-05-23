@@ -21,3 +21,4 @@ class mainLoop:
 
             window.drawingBoard()
             pygame.display.flip()
+

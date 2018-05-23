@@ -1,7 +1,7 @@
 from Graphic.Window import *
 
 class Button():
-    def __init__(self, window, x, y, width, height, normalColour, highligtedColour, action=None):
+    def __init__(self, window, x, y, width, height, normalColour, highligtedColour, text=("", 0, 0), action=None):
         self._window = window
         self._x = x
         self._y = y
@@ -10,6 +10,7 @@ class Button():
         self._ic = normalColour
         self._ac = highligtedColour
         self._action = action
+        self._text, self._textSize, self._textColour = text
         self._wasClicked = False
         self._enabled = True
 
@@ -29,6 +30,7 @@ class Button():
         else:
             self.drawNormal()
             self._wasClicked = False
+        self.drawText()
 
 
     def drawNormal(self):
@@ -36,6 +38,11 @@ class Button():
 
     def drawHighlighted(self):
         pygame.draw.rect(self._window, self._ac, (self._x, self._y, self._w, self._h))
+
+    def drawText(self):
+        myFont = pygame.font.SysFont("freesansbold.ttf", self._textSize)
+        text = myFont.render(self._text, 1, self._textColour)
+        self._window.blit(text, (self._x + ((self._w - text.get_rect().width) / 2), self._y + ((self._h - text.get_rect().height) / 2)))
 
     def setEnabled(self, enabled):
         self._enabled = enabled
