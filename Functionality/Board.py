@@ -1,27 +1,28 @@
 from Functionality.Field import *
+from Exceptions import *
 
+RowCount = 6
+ColumnCount = 7
 
 class Board:
-    RowCount = 6
-    ColumnCount = 7
+
 
     def __init__(self):
         self.reset()
 
     def reset(self):
         self._lastSelectedField = None
-        self._fields = [[Field(i, j, Empty) for i in range(self.ColumnCount)] for j in range(self.RowCount)] #List Comprehensions
+        self._fields = [[Field(i, j, Empty) for i in range(ColumnCount)] for j in range(RowCount)] #List Comprehensions
 
     def dropToColumn(self, column, state):
         selectedField = None
-        for i in range(self.RowCount - 1, -1, -1):
+        for i in range(RowCount - 1, -1, -1):
             if (self._fields[i][column].getState() == Empty):
                 selectedField = Field(i, column, state)
                 self._fields[i][column] = selectedField
                 break
-        ## zamiast tego wyjatku zrobic dany przycisk disabled
         if (selectedField == None):
-            raise Exception("Cannot throw to column " + column + " because it is full")
+            raise FullColumnException(column)
 
         self._lastSelectedField = selectedField
 
